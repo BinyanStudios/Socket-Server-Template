@@ -73,6 +73,7 @@ const keepServerAlive = () => {
   keepAliveId = setInterval(() => {
     wss.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
+        client.send("ping");
       }
     });
   }, 50000);
