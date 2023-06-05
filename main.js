@@ -17,7 +17,9 @@ const wss =
     : new WebSocket.Server({ port: 5001 });
 
 server.listen(serverPort);
-console.log(`Server started on port ${serverPort} in stage ${process.env.NODE_ENV}`);
+console.log(
+  `Server started on port ${serverPort} in stage ${process.env.NODE_ENV}`
+);
 
 wss.on("connection", function (ws, req) {
   console.log("Connection Opened");
@@ -30,8 +32,8 @@ wss.on("connection", function (ws, req) {
 
   ws.on("message", (data) => {
     let stringifiedData = data.toString();
-    if (stringifiedData === 'pong') {
-      console.log('keepAlive');
+    if (stringifiedData === "pong") {
+      console.log("keepAlive");
       return;
     }
     broadcast(ws, stringifiedData, false);
@@ -67,17 +69,15 @@ const broadcast = (ws, message, includeSelf) => {
 /**
  * Sends a ping message to all connected clients every 50 seconds
  */
- const keepServerAlive = () => {
+const keepServerAlive = () => {
   keepAliveId = setInterval(() => {
     wss.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
-        client.send('ping');
       }
     });
   }, 50000);
 };
 
-
-app.get('/', (req, res) => {
-    res.send('Hello World!');
+app.get("/", (req, res) => {
+  res.send("Hello World!");
 });
